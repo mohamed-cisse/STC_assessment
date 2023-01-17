@@ -15,9 +15,9 @@ public class FilesService {
 
      @Autowired
     FilesRepository filesRepository;
-    public Files store(MultipartFile file, long Item_id) throws IOException {
+    public Files store(byte[] file, long Item_id) throws IOException {
 
-        Files FileDB = new Files( file.getBytes(),Item_id);
+        Files FileDB = new Files( file,Item_id);
 
 
         return filesRepository.save(FileDB);

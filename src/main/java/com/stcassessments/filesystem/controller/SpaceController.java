@@ -1,5 +1,6 @@
 package com.stcassessments.filesystem.controller;
 
+import com.stcassessments.filesystem.dto.ItemDto;
 import com.stcassessments.filesystem.entity.Item;
 import com.stcassessments.filesystem.service.ItemService;
 import com.stcassessments.filesystem.service.PermissionGroupsService;
@@ -16,8 +17,10 @@ public class SpaceController {
 
 
     @PostMapping (path = "create/space")
-    public String createSpace(@RequestBody Item item)
+    public String createSpace(@RequestBody ItemDto itemDto)
     {
+        Item item=itemDto.itemDtoToItem(itemDto);
+
         if (itemService.getItemByNameAndParentItemId(item.getName(),item.getParentItemId()).isPresent()) {
 
             return "Space already exist";

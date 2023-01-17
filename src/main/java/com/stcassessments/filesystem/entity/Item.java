@@ -29,6 +29,12 @@ public class Item {
     @Column(name = "permission_group_id", nullable = false)
     private long permissionGroupId;
 
+    public Item(String name, String type, long parentItemId, long permissionGroupId) {
+        this.name=name;
+        this.type=type;
+        this.parentItemId=parentItemId;
+        this.permissionGroupId=permissionGroupId;
+    }
 }
 
 

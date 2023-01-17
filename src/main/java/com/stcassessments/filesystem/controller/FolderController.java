@@ -3,6 +3,7 @@ package com.stcassessments.filesystem.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stcassessments.filesystem.dto.FolderDto;
 import com.stcassessments.filesystem.entity.Item;
 import com.stcassessments.filesystem.service.ItemService;
 import com.stcassessments.filesystem.service.PermissionGroupsService;
@@ -24,14 +25,20 @@ public class FolderController {
 
 
     @PostMapping(path = "create/folder")
-    public String createFolder(@RequestBody String request) throws JsonProcessingException {
+    public String createFolder(@RequestBody FolderDto request) {
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(request);
+        if( !checkFolder(request.getItem(), request.getEmail()).equals("Valid"))
+        {
+            return "problem";
+        }
 
-        Item item = mapper.convertValue(node.get("item"), Item.class);
-        String email=  mapper.convertValue(node.get("email"), String.class);
-        System.out.println(email+"  email");
+        itemService.save(request.getItem());
+        return "Folder created successfully";
+    }
+
+    public String checkFolder(Item item, String email)
+    {
+
         if( !itemService.checkPermission(email))
         {
             return "Unauthorised";
@@ -51,12 +58,11 @@ public class FolderController {
 
         if (item1.isPresent()) {
 
-                return "Folder already exist";
+            return "Folder already exist";
 
         }
 
-        itemService.save(item);
-        return "Folder created successfully";
+        return "Valid";
     }
 
 }

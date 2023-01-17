@@ -55,4 +55,11 @@ public class ItemService {
         return item.isPresent() ? item.get().getType():"";
 
     }
+
+    public Item getItemById(long itemId) {
+        Optional<Item> item= itemRepository.getItemById(itemId);
+
+        return item.isPresent() ?  item.get():null ;
+
+    }
 }
